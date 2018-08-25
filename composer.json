@@ -1,0 +1,53 @@
+{
+    "name": "vmitchell85/nova-links",
+    "description": "Add custom links to your nova navigation",
+    "keywords": [
+        "laravel",
+        "nova"
+    ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../nova"
+        }
+    ],
+    "homepage": "https://github.com/vmitchell85/nova-links",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vince Mitchell",
+            "email": "vincent.mitchell@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "laravel/nova": "*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3.6",
+        "phpunit/phpunit": "7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "vmitchell85\\NovaLinks\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "vmitchell85\\NovaLinks\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "vmitchell85\\NovaLinks\\NovaLinksServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
