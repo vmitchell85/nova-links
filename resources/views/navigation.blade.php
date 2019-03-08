@@ -7,7 +7,8 @@
 <ul class="list-reset mb-8">
     @foreach (config('nova-links.links') as $name => $link)
         <li class="leading-wide mb-4 text-sm">
-            <a href="{{$link}}" class="text-white ml-8 no-underline dim">
+            <a href="{{$link}}" class="text-white ml-8 no-underline dim"
+                    {{ config('nova-links.open_in_new_tab') ? 'target="_blank"' : '' }}>
                 {{ $name }}
             </a>
         </li>
