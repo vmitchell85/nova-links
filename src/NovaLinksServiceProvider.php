@@ -2,7 +2,6 @@
 
 namespace vmitchell85\NovaLinks;
 
-use Laravel\Nova\Nova;
 use Illuminate\Support\ServiceProvider;
 
 class NovaLinksServiceProvider extends ServiceProvider
@@ -19,5 +18,10 @@ class NovaLinksServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config/nova-links.php' => config_path('nova-links.php')
         ], 'config');
+
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/nova-links.php',
+            'nova-links'
+        );
     }
 }
