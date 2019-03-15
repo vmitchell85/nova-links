@@ -33,8 +33,47 @@ public function tools()
 }
 ```
 
-To publish the config file to config/nova-links.php run:
+## Usage
 
-php artisan vendor:publish --provider="vmitchell85\NovaLinks\NovaLinksServiceProvider" --tag="config"
+There are two ways you can add links:
 
-To add links to the navigation section you need to add entries to the `links` section in the config in the format `'link-name' => 'url'`
+### Add Links At Runtime
+
+If you would like to add links at runtime you can add them using the `add($linkTitle, $linkUrl, $linkTarget)` function like this:
+
+```php
+// in app/Providers/NovaServiceProvider.php
+
+// ...
+
+public function tools()
+{
+    return [
+        // ...
+        (new \vmitchell85\NovaLinks\Links())
+            ->add('Nova Docs', 'https://nova.laravel.com/docs')
+            ->add('Laravel Docs', 'https://laravel.com/docs', '_blank'),
+    ];
+}
+```
+
+### Add Links Using the Config File
+
+You can also add links using the config file. First, publish the config file using the following command:
+
+`php artisan vendor:publish --provider="vmitchell85\NovaLinks\NovaLinksServiceProvider" --tag="config"`
+
+Then open the config file and add your links in the format `'linkName' => 'linkUrl'`
+
+```php
+// in config/nova-links.php
+
+
+return [
+    'links' => [
+        'Nova Docs' => 'http://nova.laravel.com/docs',
+        'Laravel Docs' => 'http://laravel.com/docs'
+    ],
+];
+
+```
