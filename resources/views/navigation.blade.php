@@ -5,10 +5,11 @@
     <span class="sidebar-label">{{ __('Links') }}</span>
 </h3>
 <ul class="list-reset mb-8">
-    @foreach (config('nova-links.links') as $name => $link)
+    @foreach ($links as $link)
         <li class="leading-wide mb-4 text-sm">
-            <a href="{{$link}}" class="text-white ml-8 no-underline dim">
-                {{ $name }}
+            <a href="{{ $link['href'] }}" class="text-white ml-8 no-underline dim"
+                     target="{{ $link['target'] }}">
+                {{ $link['name'] }}
             </a>
         </li>
     @endforeach
