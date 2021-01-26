@@ -6,8 +6,8 @@
 </h3>
 <ul class="list-reset mb-8">
     @foreach ($links as $link)
-        <li class="leading-wide mb-4 text-sm">
-            <a href="{{ $link['href'] }}" class="text-white ml-8 no-underline dim"
+        <li class="leading-wide mb-4 ml-8 text-sm">
+            <a href="{{ $link['href'] }}" class="text-white no-underline dim"
                      target="{{ $link['target'] }}">
                 {{ $link['name'] }}
             </a>
