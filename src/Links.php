@@ -8,9 +8,24 @@ use Laravel\Nova\Tool as BaseTool;
 class Links extends BaseTool
 {
     /**
+     * @var string $label
+     */
+    protected $label = 'Links';
+
+    /**
      * @var array $links
      */
     protected $links = [];
+
+    /**
+     * Create a new Tool.
+     *
+     * @return void
+     */
+    public function __construct(string $label = 'Links')
+    {
+        $this->label = $label;
+    }
 
     /**
      * Perform any tasks that need to happen when the tool is booted.
@@ -32,7 +47,10 @@ class Links extends BaseTool
      */
     public function renderNavigation()
     {
-        return view('nova-links::navigation', ['links' => $this->links]);
+        return view('nova-links::navigation', [
+            'label' => $this->label,
+            'links' => $this->links
+        ]);
     }
 
     /**
