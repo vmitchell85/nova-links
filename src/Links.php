@@ -11,9 +11,24 @@ use Laravel\Nova\Menu\MenuItem;
 class Links extends BaseTool
 {
     /**
+     * @var string|null $label
+     */
+    protected $label = null;
+
+    /**
      * @var array<MenuItem> $links
      */
     protected $links = [];
+
+    /**
+     * Create a new Tool.
+     *
+     * @return void
+     */
+    public function __construct(string $label = null)
+    {
+        $this->label = $label ?: __('Links');
+    }
 
     /**
      * Perform any tasks that need to happen when the tool is booted.
@@ -35,7 +50,7 @@ class Links extends BaseTool
      */
     public function menu(Request $request)
     {
-        return MenuSection::make(__('Links'), $this->links, 'link');
+        return MenuSection::make($this->label, $this->links, 'link');
     }
 
     /**
