@@ -78,6 +78,8 @@ return [
 
 ```
 
+> **Please note:** We do not recommend using this config option with the runtime option. If you have multiple instances and use the config file the config file entries will show on each instance.
+
 ### Change the Navigation Label
 
 The default heading that will appear in the Nova sidebar is 'Links'.
@@ -96,7 +98,7 @@ public function tools()
         (new \vmitchell85\NovaLinks\Links('Documentation'))
             ->add('Nova Docs', 'https://nova.laravel.com/docs')
             ->add('Laravel Docs', 'https://laravel.com/docs', '_blank'),
-            
+
         (new \vmitchell85\NovaLinks\Links('News'))
             ->add('Laravel Blog', 'https://blog.laravel.com')
             ->add('Laravel News', 'https://laravel-news.com'),
