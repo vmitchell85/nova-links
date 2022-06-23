@@ -29,7 +29,7 @@ class Links extends BaseTool
     }
 
     /**
-     * Build the view that renders the navigation links for the tool.
+     * Build the menu section that contains the navigation links for the tool.
      *
      * @return MenuSection
      */
