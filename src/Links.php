@@ -4,16 +4,19 @@ namespace vmitchell85\NovaLinks;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool as BaseTool;
+use Illuminate\Http\Request;
+use Laravel\Nova\Menu\MenuSection;
+use Laravel\Nova\Menu\MenuItem;
 
 class Links extends BaseTool
 {
     /**
-     * @var string $label
+     * @var string|null $label
      */
-    protected $label = 'Links';
+    protected $label = null;
 
     /**
-     * @var array $links
+     * @var array<MenuItem> $links
      */
     protected $links = [];
 
@@ -22,9 +25,9 @@ class Links extends BaseTool
      *
      * @return void
      */
-    public function __construct(string $label = 'Links')
+    public function __construct(string $label = null)
     {
-        $this->label = $label;
+        $this->label = $label ?: __('Links');
     }
 
     /**
@@ -41,16 +44,13 @@ class Links extends BaseTool
     }
 
     /**
-     * Build the view that renders the navigation links for the tool.
+     * Build the menu section that contains the navigation links for the tool.
      *
-     * @return \Illuminate\View\View
+     * @return MenuSection
      */
-    public function renderNavigation()
+    public function menu(Request $request)
     {
-        return view('nova-links::navigation', [
-            'label' => $this->label,
-            'links' => $this->links
-        ]);
+        return MenuSection::make($this->label, $this->links, 'link');
     }
 
     /**
@@ -63,11 +63,13 @@ class Links extends BaseTool
      */
     public function add($name, $href, $target = '_self')
     {
-        $this->links[] = [
-            'name' => $name,
-            'href' => $href,
-            'target' => $target,
-        ];
+        $link = MenuItem::link($name, $href);
+
+        if ($target === '_blank') {
+            $link->external();
+        }
+
+        $this->links[] = $link;
 
         return $this;
     }

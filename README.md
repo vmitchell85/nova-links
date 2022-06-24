@@ -1,11 +1,12 @@
-
-# Add custom links to your nova navigation
+# Add custom links to your Nova navigation
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/vmitchell85/nova-links.svg?style=flat-square)](https://packagist.org/packages/vmitchell85/nova-links)
 [![Total Downloads](https://img.shields.io/packagist/dt/vmitchell85/nova-links.svg?style=flat-square)](https://packagist.org/packages/vmitchell85/nova-links)
 
-
 This tool allows you to add a links section in your sidebar.
+
+Version 1.x supports Nova 3 and is considered in maintenance mode only.
+Version 2.x supports Nova 4 and up.
 
 ![alt text](./screenshot.png "Nova Links Screenshot")
 
@@ -78,6 +79,8 @@ return [
 
 ```
 
+> **Please note:** We do not recommend using this config option with the runtime option. If you have multiple instances and use the config file the config file entries will show on each instance.
+
 ### Change the Navigation Label
 
 The default heading that will appear in the Nova sidebar is 'Links'.
@@ -96,7 +99,7 @@ public function tools()
         (new \vmitchell85\NovaLinks\Links('Documentation'))
             ->add('Nova Docs', 'https://nova.laravel.com/docs')
             ->add('Laravel Docs', 'https://laravel.com/docs', '_blank'),
-            
+
         (new \vmitchell85\NovaLinks\Links('News'))
             ->add('Laravel Blog', 'https://blog.laravel.com')
             ->add('Laravel News', 'https://laravel-news.com'),
