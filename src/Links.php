@@ -31,19 +31,6 @@ class Links extends BaseTool
     }
 
     /**
-     * Perform any tasks that need to happen when the tool is booted.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        // Add Links from config file (for backward compatibility with v0.0.1)
-        foreach (config('nova-links.links') as $name => $href) {
-            $this->add($name, $href);
-        }
-    }
-
-    /**
      * Build the menu section that contains the navigation links for the tool.
      *
      * @return MenuSection
@@ -54,18 +41,45 @@ class Links extends BaseTool
     }
 
     /**
+     * Add internal link
+     *
+     * @param string $name
+     * @param string $href
+     *
+     * @return self
+     */
+    public function addLink(string $name, string $href): self
+    {
+        return $this->add($name, $href);
+    }
+
+    /**
+     * Add external link
+     *
+     * @param string $name
+     * @param string $href
+     *
+     * @return self
+     */
+    public function addExternalLink(string $name, string $href): self
+    {
+        return $this->add($name, $href, true);
+    }
+
+    /**
      * Add links to be displayed on Nova sidebar
      *
-     * @param string $name Display name of the Link eg: "Tailwind Docs"
-     * @param string $href Link location eg: "https://tailwindcss.com/"
-     * @param string $target Default option '_self' opens link in same window. Set to '_blank' to open link in new tab.
+     * @param string $name
+     * @param string $href
+     * @param boolean $external
+     *
      * @return $this
      */
-    public function add($name, $href, $target = '_self')
+    private function add(string $name, string $href, bool $external = false): self
     {
         $link = MenuItem::link($name, $href);
 
-        if ($target === '_blank') {
+        if ($external) {
             $link->external();
         }
 

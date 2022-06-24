@@ -1,94 +1,28 @@
-# Add custom links to your Nova navigation
+# A Laravel Nova package to display custom links in the sidebar navigation
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/vmitchell85/nova-links.svg?style=flat-square)](https://packagist.org/packages/vmitchell85/nova-links)
 [![Total Downloads](https://img.shields.io/packagist/dt/vmitchell85/nova-links.svg?style=flat-square)](https://packagist.org/packages/vmitchell85/nova-links)
 
-This tool allows you to add a links section in your sidebar.
+!['Header Image'](https://banners.beyondco.de/Nova%20Links.png?theme=dark&packageManager=composer+require&packageName=vmitchell85%2Fnova-links&pattern=hexagons&style=style_2&description=Add+custom+links+to+your+Nova+sidebar&md=1&showWatermark=0&fontSize=100px&images=link)
 
-Version 1.x supports Nova 3 and is considered in maintenance mode only.
-Version 2.x supports Nova 4 and up.
+This package leets you add any number of links to the Nova sidebar.
 
-![alt text](./screenshot.png "Nova Links Screenshot")
+> **Note:** For Nova 3 or earlier use version 1.x
 
 ## Installation
 
-You can install the package in to a Laravel app that uses [Nova](https://nova.laravel.com) via composer:
+You can install the package via composer:
 
 ```bash
 composer require vmitchell85/nova-links
 ```
 
-Next up, you must register the tool with Nova. This is typically done in the `tools` method of the `NovaServiceProvider`.
-
-```php
-// in app/Providers/NovaServiceProvider.php
-
-// ...
-
-public function tools()
-{
-    return [
-        // ...
-        new \vmitchell85\NovaLinks\Links(),
-    ];
-}
-```
-
 ## Usage
 
-There are two ways you can add links:
-
-### Add Links At Runtime
-
-If you would like to add links at runtime you can add them using the `add($linkTitle, $linkUrl, $linkTarget)` function like this:
+Register the tool in the `tools` method of the `NovaServiceProvider`.
 
 ```php
-// in app/Providers/NovaServiceProvider.php
-
-// ...
-
-public function tools()
-{
-    return [
-        // ...
-        (new \vmitchell85\NovaLinks\Links())
-            ->add('Nova Docs', 'https://nova.laravel.com/docs')
-            ->add('Laravel Docs', 'https://laravel.com/docs', '_blank'),
-    ];
-}
-```
-
-### Add Links Using the Config File
-
-You can also add links using the config file. First, publish the config file using the following command:
-
-`php artisan vendor:publish --provider="vmitchell85\NovaLinks\NovaLinksServiceProvider" --tag="config"`
-
-Then open the config file and add your links in the format `'linkName' => 'linkUrl'`
-
-```php
-// in config/nova-links.php
-
-
-return [
-    'links' => [
-        'Nova Docs' => 'http://nova.laravel.com/docs',
-        'Laravel Docs' => 'http://laravel.com/docs'
-    ],
-];
-
-```
-
-> **Please note:** We do not recommend using this config option with the runtime option. If you have multiple instances and use the config file the config file entries will show on each instance.
-
-### Change the Navigation Label
-
-The default heading that will appear in the Nova sidebar is 'Links'.
-
-You can change the navigation label by passing a string to the constructor:
-
-```php
-// in app/Providers/NovaServiceProvider.php
+// app/Providers/NovaServiceProvider.php
 
 // ...
 
@@ -97,12 +31,54 @@ public function tools()
     return [
         // ...
         (new \vmitchell85\NovaLinks\Links('Documentation'))
-            ->add('Nova Docs', 'https://nova.laravel.com/docs')
-            ->add('Laravel Docs', 'https://laravel.com/docs', '_blank'),
-
-        (new \vmitchell85\NovaLinks\Links('News'))
-            ->add('Laravel Blog', 'https://blog.laravel.com')
-            ->add('Laravel News', 'https://laravel-news.com'),
+            ->addExternalLink('Laravel Docs', 'https://laravel.com/docs')
+            ->addExternalLink('Nova Docs', 'https://nova.laravel.com/docs')
     ];
 }
 ```
+
+### Examples
+
+Add internal links or external links calling the `addLink` or `addExternalLink` methods respectively.
+
+```php
+// app/Providers/NovaServiceProvider.php
+
+// ...
+
+public function tools()
+{
+    return [
+        // ...
+        (new \vmitchell85\NovaLinks\Links('All Links'))
+            ->addLink('Nova Main', '/')
+            ->addExternalLink('Laravel Docs', 'https://laravel.com/docs'),
+    ];
+}
+```
+
+You can also change the navigation label by passing a string to the constructor:
+
+```php
+// app/Providers/NovaServiceProvider.php
+
+// ...
+
+public function tools()
+{
+    return [
+        // ...
+        (new \vmitchell85\NovaLinks\Links('Quick Links'))
+            ->addLink('Nova Main', '/')
+            ->addExternalLink('Frontend', url('/')),
+
+        (new \vmitchell85\NovaLinks\Links('Laravel-related News'))
+            ->addExternalLink('Laravel Blog', 'https://blog.laravel.com')
+            ->addExternalLink('Laravel News', 'https://laravel-news.com'),
+    ];
+}
+```
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
