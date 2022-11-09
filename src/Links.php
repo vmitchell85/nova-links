@@ -4,16 +4,19 @@ namespace vmitchell85\NovaLinks;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool as BaseTool;
+use Illuminate\Http\Request;
+use Laravel\Nova\Menu\MenuSection;
+use Laravel\Nova\Menu\MenuItem;
 
 class Links extends BaseTool
 {
     /**
-     * @var string $label
+     * @var string|null $label
      */
-    protected $label = 'Links';
+    protected $label = null;
 
     /**
-     * @var array $links
+     * @var array<MenuItem> $links
      */
     protected $links = [];
 
@@ -22,52 +25,65 @@ class Links extends BaseTool
      *
      * @return void
      */
-    public function __construct(string $label = 'Links')
+    public function __construct(string $label = null)
     {
-        $this->label = $label;
+        $this->label = $label ?: __('Links');
     }
 
     /**
-     * Perform any tasks that need to happen when the tool is booted.
+     * Build the menu section that contains the navigation links for the tool.
      *
-     * @return void
+     * @return MenuSection
      */
-    public function boot()
+    public function menu(Request $request)
     {
-        // Add Links from config file (for backward compatibility with v0.0.1)
-        foreach (config('nova-links.links') as $name => $href) {
-            $this->add($name, $href);
-        }
+        return MenuSection::make($this->label, $this->links, 'link');
     }
 
     /**
-     * Build the view that renders the navigation links for the tool.
+     * Add internal link
      *
-     * @return \Illuminate\View\View
+     * @param string $name
+     * @param string $href
+     *
+     * @return self
      */
-    public function renderNavigation()
+    public function addLink(string $name, string $href): self
     {
-        return view('nova-links::navigation', [
-            'label' => $this->label,
-            'links' => $this->links
-        ]);
+        return $this->add($name, $href);
+    }
+
+    /**
+     * Add external link
+     *
+     * @param string $name
+     * @param string $href
+     *
+     * @return self
+     */
+    public function addExternalLink(string $name, string $href): self
+    {
+        return $this->add($name, $href, true);
     }
 
     /**
      * Add links to be displayed on Nova sidebar
      *
-     * @param string $name Display name of the Link eg: "Tailwind Docs"
-     * @param string $href Link location eg: "https://tailwindcss.com/"
-     * @param string $target Default option '_self' opens link in same window. Set to '_blank' to open link in new tab.
+     * @param string $name
+     * @param string $href
+     * @param boolean $external
+     *
      * @return $this
      */
-    public function add($name, $href, $target = '_self')
+    private function add(string $name, string $href, bool $external = false): self
     {
-        $this->links[] = [
-            'name' => $name,
-            'href' => $href,
-            'target' => $target,
-        ];
+        $link = MenuItem::link($name, $href);
+
+        if ($external) {
+            $link->external();
+        }
+
+        $this->links[] = $link;
 
         return $this;
     }
