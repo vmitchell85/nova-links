@@ -79,6 +79,24 @@ public function tools()
 }
 ```
 
+To open a link in a new browser window, set the third parameter on `addLink` or `addExternalLink` to `true`:
+
+```php
+// app/Providers/NovaServiceProvider.php
+
+// ...
+
+public function tools()
+{
+    return [
+        // ...
+        (new \vmitchell85\NovaLinks\Links('Laravel-related News'))
+            ->addLink('Nova Main', '/', true)
+            ->addExternalLink('Laravel News', 'https://laravel-news.com', true),
+    ];
+}
+```
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

@@ -45,12 +45,13 @@ class Links extends BaseTool
      *
      * @param string $name
      * @param string $href
+     * @param boolean $openInNewTab
      *
      * @return self
      */
-    public function addLink(string $name, string $href): self
+    public function addLink(string $name, string $href, bool $openInNewTab = false): self
     {
-        return $this->add($name, $href);
+        return $this->add($name, $href, $openInNewTab);
     }
 
     /**
@@ -58,12 +59,13 @@ class Links extends BaseTool
      *
      * @param string $name
      * @param string $href
+     * @param boolean $openInNewTab
      *
      * @return self
      */
-    public function addExternalLink(string $name, string $href): self
+    public function addExternalLink(string $name, string $href, bool $openInNewTab = false): self
     {
-        return $this->add($name, $href, true);
+        return $this->add($name, $href, $openInNewTab, true);
     }
 
     /**
@@ -71,16 +73,21 @@ class Links extends BaseTool
      *
      * @param string $name
      * @param string $href
+     * @param boolean $openInNewTab
      * @param boolean $external
      *
      * @return $this
      */
-    private function add(string $name, string $href, bool $external = false): self
+    private function add(string $name, string $href, bool $openInNewTab, bool $external = false): self
     {
         $link = MenuItem::link($name, $href);
 
         if ($external) {
             $link->external();
+        }
+
+        if ($openInNewTab) {
+            $link->openInNewTab();
         }
 
         $this->links[] = $link;
